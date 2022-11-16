@@ -1,38 +1,71 @@
-.box {
-    max-width: 600px;
-    margin: auto;
-    border: 1px solid lightblue;
-    border-radius: 4px;
-    padding: 10px;
-    margin: 10px;
+body {
+    background-color: whitesmoke;
 }
 
-.box img {
-    display: block;
-    margin: auto;
-    cursor: pointer;
+h1{
+    visibility: hidden;
 }
 
-.mark {
-    background-color: lightblue;
-    padding: 0 2px;
-}
-
-.mark:hover {
-    color: white;
-    cursor: pointer;
-}
-
-.modal {
-    background-color: lightseagreen;
-    display: none;
+.balloon {
+    display: inline-block;
+    width: 120px;
+    height: 145px;
+    border-radius: 80%;
     position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px;
-    width: 300px;
+    box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.07);
+    margin: 20px 30px;
+    transition: 1.5s;
+    /* z-index:10; */
+    /* animation:balloons 4s ease-in-out infinite; */
+    /* transform-origin:bottom center; */
 }
 
-.modal button {
-    float: right;
+.balloon1 {
+    background: rgb(210, 121, 155);
+    left: 10%;
 }
+
+.balloon2 {
+    background: rgb(163, 121, 210);
+    left: 26%;
+}
+
+.balloon3 {
+    background: rgb(121, 163, 210);
+    left: 42%;
+}
+
+.balloon4 {
+    background: rgb(169, 210, 121);
+    left: 58%;
+}
+
+.balloon5 {
+    background: rgb(210, 201, 121);
+    left: 74%;
+}
+
+button{
+    color: whitesmoke;
+    background: rgb(210, 172, 121);
+    font-size: 65px;
+    padding: 25px;
+    border-color: rgb(210, 172, 121);
+    border-radius: 20px;
+    opacity: 0;
+    transition: .65s;
+}
+
+button:hover{
+    background: whitesmoke;
+    color: rgb(210, 172, 121);;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    /* -ms-transform: translateY(-50%);
+    transform: translateY(-50%); */
+  }

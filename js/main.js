@@ -1,83 +1,58 @@
 'use strict'
 
-var gIsMark
-var gElModal
-var gModalTimeOutIdx
+var gElBalloons
+var gBalloons
+var gInterval
+var gClicked
+var gIsProccessing
+const gPlaySound = new Audio('pop.wav')
+const body = document.body
 
 function onInit() {
-    gElModal = document.querySelector('.modal')
-    gIsMark = false
-    setTimeout(changeHeader, 3000)
+    // gIsProccessing = false
+    gClicked = 0
+    gBalloons = [{bottom: 10, speed: 10},
+                {bottom: 4, speed: 15},
+                {bottom: 0, speed: 20},
+                {bottom: 7, speed: 12},
+                {bottom: 2, speed: 18}]
+    gElBalloons = document.querySelectorAll('.balloon')
+    gIsProccessing = false
+    gInterval = setInterval(goUp, 150);
 }
 
-function changeHeader() {
-    const elHeader = document.querySelector('h1')
-    elHeader.innerText = 'I Love JS'
-}
-
-function onMark(elBtn) {
-    elBtn.innerText = gIsMark ? 'Mark' : 'Unmark'
-    var elSpans = document.querySelectorAll('.box span')
-    for (var i = 0; i < elSpans.length; i++) {
-        elSpans[i].classList.toggle('mark')
+function goUp() {
+    const elResetBtn = document.querySelector('button')
+    for (var i = 0; i < gBalloons.length; i++) {
+        if (gBalloons[gBalloons.length-1].bottom > body.clientHeight + body.clientHeight/1.5 ||
+        gClicked === gBalloons.length) {
+            clearInterval(gInterval)
+            elResetBtn.style.opacity = 100
+            return
+        }
+        gBalloons[i].bottom += gBalloons[i].speed
+        gElBalloons[i].style.bottom = gBalloons[i].bottom
     }
-    gIsMark = !gIsMark
 }
 
-
-function onMouseOver(elImg) {
-    elImg.src = 'img\\ca.png'
+function onBaloonClicked(elBalloon) {
+    if (gIsProccessing) return
+    elBalloon.style.opacity = '0'
+    gPlaySound.play()
+    gClicked++
 }
 
-function onMouseOut(elImg) {
-    elImg.src = 'img\\ninja.png'
-}
-
-function onImgClicked() {
-    onBless()
-}
-
-function onChangeSubHeader(elSpan) {
-    if (elSpan.className !== 'mark') return
-    const elSubHeader = document.querySelector('h2')
-    var str = 'its so...' + elSpan.innerText
-    elSubHeader.innerHTML = str
-}
-
-function onHandleKey(ev) {
-    if (ev.key === 'Escape') onCloseModal()
-}
-
-function onOpenModal() {
-    clearTimeout(gModalTimeOutIdx)
-    gElModal.style.display = ('block')
-    gModalTimeOutIdx = setTimeout(onCloseModal, 5000)
-}
-function onCloseModal() {
-    clearTimeout(gModalTimeOutIdx)
-    gElModal.style.display = ('none')
-}
-
-
-function onBless() {
-    const elModalHeader = document.querySelector('.modal h2')
-    var currTime = getTime()
-    elModalHeader.style.color = getRandomColor()
-    elModalHeader.innerText = `You were blessed at ${currTime}`
-    onOpenModal()
-}
-
-
-function getTime() {
-    return new Date().toString().split(' ')[4];
-}
-
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+function onResetBtn() {
+    const elResetBtn = document.querySelector('button')
+    clearInterval(gInterval)
+    elResetBtn.style.opacity = 0
+    for (var i = 0; i < gBalloons.length; i++) {
+        gElBalloons[i].style.transition = '0s'
+        gElBalloons[i].style.opacity = '100'
+        gElBalloons[i].style.transition = '1.5s'
+        gBalloons[i].bottom += 0
+        gElBalloons[i].style.bottom = 0
     }
-    return color;
+    gIsProccessing = true
+    setTimeout(onInit, 2250)
 }
-
